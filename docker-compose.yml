@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  morador:
+    build: ./morador
+    container_name: ms-morador
+    ports:
+      - "8001:8001"
+    networks:
+      - minha-rede
+
+  apartamento:
+    build: ./apartament
+    container_name: ms-apartment
+    ports:
+      - "8000:8000"
+    depends_on:
+      - morador
+    environment:
+      - MORADOR_URL=http://morador:8001
+    networks:
+      - minha-rede
+
+networks:
+  minha-rede:
+    driver: bridge
